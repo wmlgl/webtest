@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="telephone=no" name="format-detection">
+	<meta content="email=no" name="format-detection">
+
+	<meta charset="utf-8">
+
+	<title>Mobile</title>
+<script type="text/javascript">
+//设置字体大小
+var _minWinSize = Math.min(/*window.screen.availWidth,*/window.screen.availHeight,window.innerWidth,window.innerHeight,document.documentElement.clientWidth);
+var _minFontSize = Math.min(625*(_minWinSize/640)/0.859, 625);
+document.documentElement.style.fontSize = _minFontSize.toFixed(0)+'%';
+</script>
+<style type="text/css">
+html,body,.container {
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+}
+.container {
+	position: relative;
+	overflow: auto;
+	font-size: 0.25rem;
+}
+#log {
+	height: 110%;
+	width: 110%;
+}
+#input {
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+}
+.px30 {
+	height: 30px;
+	background: red;
+}
+.px5 {
+	height: 3px;
+	border: 1px solid green;
+}
+</style>
+</head>
+<body>
+	<div class="container" id="container">
+		<div id="px30"></div>
+		<div id="px5"></div>
+		<div id="px5"></div>
+		<div id="px5"></div>
+		<div id="px5"></div>
+		<div id="px5"></div>
+		<div id="px5"></div>
+
+		<div id="log">
+			
+		</div>
+		<div id="px5"></div>
+		<div id="px5"></div>
+		<div id="px5"></div>
+		<div id="px5"></div>
+		<div id="px5"></div>
+		<div id="px5"></div>
+		<div id="px30"></div>
+	</div>
+	<input id="input" />
+
+<script type="text/javascript">
+function on(dom, name, fn, capture) {
+	dom.addEventListener(name, fn, capture);
+}
+function $(selector) {
+	return document.querySelector(selector);
+}
+function log(msg) {
+	if(!log.ready) {
+		log.msg = (log.msg||'') + msg + '<br/>';
+	} else {
+		$('#log').innerHTML += msg;
+	}
+}
+on(window, 'load', function() {
+	$('#log').innerHTML = log.msg;
+	delete log.msg;
+	log.ready = true;
+	log('onload');
+});
+</script>
+<script type="text/javascript">
+function backTest() {
+	history.pushState('title', {}, '#pop');
+	window.onpopstate=function(e) {
+		log('trigger by onpopstate() after pushState(): ' + location.href);
+	}
+	location.hash = "#hash";
+	window.onhashchange=function(e) {
+		log('trigger by onhashchange() after hash=(): ' + location.href);
+	}
+}
+backTest();
+on(window, 'load', backTest);
+
+function screenRoll() {
+	window.screen.lockOrientation =
+		window.screen.lockOrientation||
+		window.screen.webkitLockOrientation||
+		window.screen.oLockOrientation||
+		window.screen.msLockOrientation;
+	window.screen.unlockOrientation =
+		window.screen.unlockOrientation||
+		window.screen.webkitUnlockOrientation||
+		window.screen.oUnlockOrientation||
+		window.screen.msUnlockOrientation;
+
+	window.screen.lockOrientation &&
+	window.screen.lockOrientation(["portrait-primary","portrait-secondary"]);
+
+	log('test lock orientation');
+	setTimeout(function() {
+		window.screen.unlockOrientation &&
+		window.screen.unlockOrientation();
+		log('test unlock orientation');
+	}, 2000);
+}
+on(window, 'load', screenRoll);
+
+log('<hr/>');
+log('screen.x: '+(window.screenX||window.screenLeft));
+log('screen.y: '+(window.screenY||window.screenTop));
+log('screen.w: '+screen.availWidth);
+log('screen.h: '+screen.availHeight);
+log('window.ow: '+window.outerWidth);
+log('window.oh: '+window.outerHeight);
+log('window.iw: '+window.innerWidth);
+log('window.ih: '+window.innerHeight);
+log('document.ow: '+$('html').offsetWidth);
+log('document.oh: '+$('html').offsetHeight);
+log('document.cw: '+$('html').clientWidth);
+log('document.ch: '+$('html').clientHeight);
+log('body.ow: '+$('body').offsetWidth);
+log('body.oh: '+$('body').offsetHeight);
+log('body.cw: '+$('body').clientWidth);
+log('body.ch: '+$('body').clientHeight);
+log('<hr/>');
+	</script>
+</body>
+</html>
