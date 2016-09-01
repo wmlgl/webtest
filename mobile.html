@@ -143,7 +143,7 @@ on(window, 'load', screenRoll);
 
 //获取工具栏高度
 function getOverlapHeight() {
-	var sh = screen.screen.availHeight;
+	var sh = screen.availHeight;
 	var wh = window.innerHeight;
 	var dpr = window.devicePixelRatio || 1;
 	if(sh / dpr >= wh) {
