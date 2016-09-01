@@ -51,9 +51,15 @@ html,body,.container {
 	background: blue;
 	height: 50px;
 }
+#dpi {
+	width: 1in;
+	height: 1in;
+	position: absolute;
+}
 </style>
 </head>
 <body>
+<div id="dpi"></div>
 	<div class="container" id="container">
 		<div id="px30"></div>
 		<div id="px5"></div>
@@ -152,7 +158,10 @@ log('body.ow: '+$('body').offsetWidth);
 log('body.oh: '+$('body').offsetHeight);
 log('body.cw: '+$('body').clientWidth);
 log('body.ch: '+$('body').clientHeight);
+log('dpi.x': $('dpi').offsetWidth);
+log('dpi.y': $('dpi').offsetHeight);
 log('<hr/>');
+$('dpi').parentNode.removeChildren($('dpi'));
 	</script>
 </body>
 </html>
