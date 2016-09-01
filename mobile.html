@@ -141,6 +141,16 @@ function screenRoll() {
 }
 on(window, 'load', screenRoll);
 
+//获取工具栏高度
+function getOverlapHeight() {
+	var sh = screen.screen.availHeight;
+	var wh = window.innerHeight;
+	var dpr = window.devicePixelRatio || 1;
+	if(sh / dpr >= wh) {
+		sh /= dpr;
+	}
+	return sh - wh;
+}
 
 log('<hr/>');
 log('screen.x: '+(window.screenX||window.screenLeft));
@@ -160,6 +170,7 @@ log('body.oh: '+$('body').offsetHeight);
 log('body.cw: '+$('body').clientWidth);
 log('body.ch: '+$('body').clientHeight);
 log('dpr: '+window.devicePixelRatio);
+log('ovh: '+getOverlapHeight());
 log('<hr/>'); 
 $('#dpi').parentElement.removeChild($('#dpi'));
 	</script>
