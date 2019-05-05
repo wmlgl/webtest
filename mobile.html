@@ -172,10 +172,10 @@ log('body.cw: '+$('body').clientWidth);
 log('body.ch: '+$('body').clientHeight);
 log('dpr: '+window.devicePixelRatio);
 log('ovh: '+getOverlapHeight());
-log('FileReader,-webkit: '+typeof(window.FileReader)+typeof(window.webkitFileReader));
-log('Worker,-webkit: '+typeof(window.Worker)+typeof(window.webkitWorker));
-log('ArrayBuffer,-webkit: '+typeof(window.ArrayBuffer)+typeof(window.webkitArrayBuffer));
-log('Uint8Array,-webkit: '+typeof(window.Uint8Array)+typeof(window.webkitUint8Array));
+log('FileReader,-webkit: '+typeof(window.FileReader)+','+typeof(window.webkitFileReader));
+log('Worker,-webkit: '+typeof(window.Worker)+','+typeof(window.webkitWorker));
+log('ArrayBuffer,-webkit: '+typeof(window.ArrayBuffer)+','+typeof(window.webkitArrayBuffer));
+log('Uint8Array,-webkit: '+typeof(window.Uint8Array)+','+typeof(window.webkitUint8Array));
 log('<hr/>'); 
 $('#dpi').parentElement.removeChild($('#dpi'));
 	</script>
