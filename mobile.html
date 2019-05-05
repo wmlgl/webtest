@@ -172,6 +172,9 @@ log('body.cw: '+$('body').clientWidth);
 log('body.ch: '+$('body').clientHeight);
 log('dpr: '+window.devicePixelRatio);
 log('ovh: '+getOverlapHeight());
+log('FileReader: '+!!(window.FileReader||window.webkitFileReader));
+log('Worker: '+!!(window.Worker||window.webkitWorker));
+log('ArrayBuffer: '+!!(window.ArrayBuffer||window.webkitArrayBuffer));
 log('<hr/>'); 
 $('#dpi').parentElement.removeChild($('#dpi'));
 	</script>
