@@ -94,7 +94,7 @@ function log(msg) {
 	if(!log.ready) {
 		log.msg = (log.msg||'') + msg + '<br/>';
 	} else {
-		$('#log').innerHTML += msg;
+		$('#log').innerHTML += msg + '<br/>';
 	}
 }
 on(window, 'load', function() {
