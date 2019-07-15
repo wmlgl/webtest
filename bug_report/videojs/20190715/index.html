@@ -1,0 +1,39 @@
+<html>
+
+<head>
+  <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
+  <meta charset="utf-8">
+  <title>Video.js Starter Template</title>
+</head>
+
+<body>
+  <video
+         id="my_video"
+         class="video-js"
+         controls
+         preload="auto"
+         width="640"
+         height="268"
+         poster="https://vjs.zencdn.net/v/oceans.png"
+         data-setup="{}"
+         >
+    <source src="http://14.18.146.169:58801//live//139_hrs_live/14149/index.m3u8" type="application/x-mpegURL">
+  </video><script src="https://unpkg.com/video.js/dist/video.js"></script>
+
+  <div id="pp" style="width:480px;height:320px"></div> 
+  <script src="http://14.18.146.169:59091/live_cms/jsplayer2/VideoPlay.js"></script>
+  <script>  /*
+    var roomID = 14149;
+    com_vgemv_VideoPlay.setup({EnablePCH5: true})
+			com_vgemv_VideoPlay.ready(roomID,{
+       onRoomInfo: function(data){
+         var vod = data.lives[0];
+         if(vod) {
+				     com_vgemv_VideoPlay.playVod(roomID,vod.liveID,'pp',null,{autoplay: true});
+         }
+       }
+    });*/
+  </script>
+</body>
+
+</html>
