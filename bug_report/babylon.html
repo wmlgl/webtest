@@ -1,0 +1,147 @@
+<html>
+  <head>
+    <title></title>
+    <script src="https://cdn.bootcss.com/babylonjs/4.1.0/babylon.js"></script>
+    <script src="https://cdn.bootcss.com/dat-gui/0.7.6/dat.gui.js"></script>
+  </head>
+  <body>
+    <canvas id="renderCanvas" style="width:100%;height:100%"></canvas>
+    <script>
+      // Get the canvas DOM element
+      var canvas = document.getElementById("renderCanvas");
+      // Load the 3D engine
+      var engine = new BABYLON.Engine(canvas, true, {
+        preserveDrawingBuffer: true,
+        stencil: true
+      });
+      //************************************************** */
+      var loadModel = function(scene) {
+        var material_red = new BABYLON.StandardMaterial("mat_ed", scene);
+        material_red.diffuseColor = new BABYLON.Color3(1, 0, 0);
+        var rightRoler = BABYLON.MeshBuilder.CreateBox(
+          "rightRoler",
+          { width: 0.3, height: 0.5, depth: 1 },
+          scene
+        );
+        rightRoler.material = material_red;
+        rightRoler.position.x = -1;
+        rightRoler.position.y = 1;
+        rightRoler.position.z = -1;
+
+        BABYLON.SceneLoader.Append("", "ybot2.babylon", scene, () => {
+          //var skeleton = scene.getSkeletonByName("Kira");
+          var skeleton = scene.getSkeletonByName("Character");
+        //   console.log(meshes);
+          //var dude = scene.getMeshByName("Henry");
+          var dude = scene.getMeshByName("Alpha_Joints");
+
+          //dude.scaling = new BABYLON.Vector3(1.2,1.2,1.2);
+          dude.position = new BABYLON.Vector3(0, 0, 0);
+
+          var poleTarget = BABYLON.MeshBuilder.CreateSphere(
+            "",
+            { diameter: 0.5 },
+            scene
+          );
+          poleTarget.position.x = 0;
+          poleTarget.position.y = 5;
+          poleTarget.position.z = 0;
+
+          rightRoler.parent = dude;
+
+          console.log(skeleton);
+
+          var iright = skeleton.getBoneIndexByName("mixamorig_LeftLeg");
+
+          var ikCtl_right = new BABYLON.BoneIKController(
+            dude,
+            skeleton.bones[iright],
+            {
+              targetMesh: rightRoler,
+              poleTargetMesh: poleTarget,
+              poleAngle: 1,
+              bendAxis: new BABYLON.Vector3(-1, 0, 0)
+            }
+          );
+
+          console.log(skeleton.bones[iright]);
+
+          //******DEBUG**************************** */
+
+          var oldgui = document.querySelector("#datGUI");
+          if (oldgui != null) {
+            oldgui.remove();
+          }
+
+          var gui = new dat.GUI();
+          gui.domElement.style.marginTop = "100px";
+          gui.domElement.id = "datGUI";
+
+          gui.add(ikCtl_right, "poleAngle", -Math.PI, Math.PI);
+          gui.add(ikCtl_right, "maxAngle", 0, Math.PI);
+          gui.add(poleTarget.position, "x", -100, 100).name("pole target x");
+          gui.add(poleTarget.position, "y", -100, 100).name("pole target y");
+          gui.add(poleTarget.position, "z", -100, 100).name("pole target z");
+          gui.add(ikCtl_right._bendAxis, "x", -1, 1).name("bend axis x");
+          gui.add(ikCtl_right._bendAxis, "y", -1, 1).name("bend axis y");
+          gui.add(ikCtl_right._bendAxis, "z", -1, 1).name("bend axis z");
+          gui.add(rightRoler.position, "x", -3, 3).name("roler target x");
+          gui.add(rightRoler.position, "y", -3, 3).name("roler target y");
+          gui.add(rightRoler.position, "z", -3, 3).name("roler target z");
+
+          //var bone1AxesViewer = new BABYLON.Debug.BoneAxesViewer(scene, skeleton.bones[iright], dude);
+
+          var skeletonViewer = new BABYLON.Debug.SkeletonViewer(
+            skeleton,
+            dude,
+            scene
+          );
+          skeletonViewer.isEnabled = true;
+          skeletonViewer.color = BABYLON.Color3.Red();
+          //********************************** */
+
+          scene.registerBeforeRender(function() {
+            ikCtl_right.update();
+
+            //bone1AxesViewer.update();
+          });
+        });
+      };
+      // CreateScene function that creates and return the scene
+      var createScene = function() {
+        // Create a basic BJS Scene object
+        var scene = new BABYLON.Scene(engine);
+        // Create a FreeCamera, and set its position to {x: 0, y: 5, z: -10}
+        var camera = new BABYLON.FreeCamera(
+          "camera1",
+          new BABYLON.Vector3(0, 5, -10),
+          scene
+        );
+        // Target the camera to scene origin
+        camera.setTarget(BABYLON.Vector3.Zero());
+        // Attach the camera to the canvas
+        camera.attachControl(canvas, false);
+        // Create a basic light, aiming 0, 1, 0 - meaning, to the sky
+        var light = new BABYLON.HemisphericLight(
+          "light1",
+          new BABYLON.Vector3(0, 1, 0),
+          scene
+        );
+        // Return the created scene
+        return scene;
+      };
+      //************************************************** */
+      // call the createScene function
+      var scene = createScene();
+      loadModel(scene);
+      // run the render loop
+      engine.runRenderLoop(function() {
+        scene.render();
+      });
+      // the canvas/window resize event handler
+      window.addEventListener("resize", function() {
+        engine.resize();
+      });
+    </script>
+  </body>
+</html>
